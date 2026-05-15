@@ -124,30 +124,3 @@ export interface BodFormModalProps {
   onSuccess: () => void;
   member?: any;
 }
-
-// Define the shape of the Member object
-export interface Member {
-  id: number;
-  name: string;
-  role: string;
-  imageUrl: string;
-  status: 'active' | 'inactive';
-  tenure: string;
-}
-
-// Define the props the Modal must accept
-export interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-  member?: Member;
-}
-
-// Define the props for the Table Component
-export interface MemberTableProps {
-  title: string;                // e.g., "Board of Directors"
-  description: string;          // e.g., "Manage board members..."
-  apiEndpoint: string;          // e.g., "bod" or "team"
-  deleteEndpoint: string;       // e.g., "bod" or "teams" (if different from apiEndpoint)
-  ModalComponent: React.FC<ModalProps>; // The specific modal to render
-}
