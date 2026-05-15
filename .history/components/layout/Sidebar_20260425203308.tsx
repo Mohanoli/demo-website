@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, Menu as MenuIcon, PanelLeft, PanelLeftClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavItem, SidebarProps } from "@/lib/types/GlobalTypes";
-import { mainNavItems, systemNavItems } from "./SidebarMenu"; // Assuming this file exists based on your snippet
+import { mainNavItems, systemNavItems } from "./SidebarMenu";
 import Image from "next/image";
 
 // --- Optimized NavItem Component ---
@@ -26,14 +26,14 @@ const NavItemComponent = ({
     const hasChildren = item.children && item.children.length > 0;
     const isChildActive = hasChildren && item.children?.some(child => pathname === child.href);
 
-    // Auto-expand if child is active
+    // Auto-expand if child is active (for better UX)
     useEffect(() => {
         if (isChildActive && !isCollapsed) {
             setIsExpanded(true);
         }
     }, [isChildActive, isCollapsed]);
 
-    // --- COLLAPSED MODE (Icon Only with Tooltip) ---
+    // Collapsed mode: icon only with tooltip
     if (isCollapsed) {
         return (
             <div className="relative group">
@@ -41,7 +41,7 @@ const NavItemComponent = ({
                     href={hasChildren ? '#' : item.href}
                     onClick={() => hasChildren && setIsExpanded(!isExpanded)}
                     className={`relative flex items-center justify-center p-3 mx-2 rounded-xl transition-all duration-200 ${isActive || isChildActive
-                        ? "bg-teal-50 text-teal-600 dark:text-teal-400"
+                        ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400"
                         : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}>
                     <item.icon size={22} className="shrink-0" />
@@ -53,7 +53,7 @@ const NavItemComponent = ({
                 </Link>
 
                 {/* Tooltip */}
-                <div className="absolute left-full ml-3 px-3 py-2 bg-slate-800  text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 pointer-events-none shadow-lg">
+                <div className="absolute left-full ml-3 px-3 py-2 bg-slate-800 dark:bg-slate-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 pointer-events-none shadow-lg">
                     {item.name}
                     <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-4 border-transparent border-r-slate-800 dark:border-r-slate-700" />
                 </div>
@@ -61,53 +61,35 @@ const NavItemComponent = ({
         );
     }
 
-    // --- EXPANDED MODE (Full Item) ---
-
-    // Common classes for the button/link
-    const linkClasses = `w-full flex items-center justify-between group px-4 py-2 rounded-lg text-[13.5px] font-medium transition-all duration-200 ${isActive || isChildActive
-        ? "bg-teal-50 text-teal-600 dark:text-teal-400"
-        : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-        }`;
-
+    // Expanded mode: full item with text
     return (
         <div className="mb-1">
-            {/* FIX: Conditionally render Link or Button */}
-            {hasChildren ? (
-                <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className={linkClasses}
-                >
-                    <div className="flex items-center gap-3">
-                        <item.icon size={17} className="shrink-0" />
-                        <span className="truncate">{item.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                        {item.badge && (
-                            <span className="px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-20px text-center">
-                                {item.badge > 99 ? '99+' : item.badge}
-                            </span>
-                        )}
-                        <motion.div
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.2 }}>
-                            <ChevronDown size={16} className="text-slate-400" />
-                        </motion.div>
-                    </div>
-                </button>
-            ) : (
-                // If it's a leaf node (like User or Dashboard), render a Link
-                <Link href={item.href} className={linkClasses}>
-                    <div className="flex items-center gap-3">
-                        <item.icon size={17} className="shrink-0" />
-                        <span className="truncate">{item.name}</span>
-                    </div>
+            <button
+                onClick={() => hasChildren && setIsExpanded(!isExpanded)}
+                className={`w-full flex items-center justify-between group px-4 py-2 rounded-lg text-[13.5px] font-medium transition-all duration-200 ${isActive || isChildActive
+                    ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400"
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}>
+                <div className="flex items-center gap-3">
+                    <item.icon size={20} className="shrink-0" />
+                    <span className="truncate">{item.name}</span>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
                     {item.badge && (
                         <span className="px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-20px text-center">
                             {item.badge > 99 ? '99+' : item.badge}
                         </span>
                     )}
-                </Link>
-            )}
+                    {hasChildren && (
+                        <motion.div
+                            animate={{ rotate: isExpanded ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}>
+                            <ChevronDown size={16} className="text-slate-400" />
+                        </motion.div>
+                    )}
+                </div>
+            </button>
 
             {/* Submenu with smooth animation */}
             <AnimatePresence initial={false}>
@@ -119,14 +101,14 @@ const NavItemComponent = ({
                         transition={{ duration: 0.2, ease: 'easeInOut' }}
                         className="overflow-hidden ml-2 pl-1 dark:border-slate-700 mt-1 space-y-1">
                         {item.children?.map((child) => {
-                            const isChildItemActive = pathname === child.href;
+                            const isChildActive = pathname === child.href;
                             return (
                                 <Link
                                     key={child.name}
                                     href={child.href}
-                                    className={`flex items-center gap-3 px-4 py-1.5 rounded-lg text-[12.5px] transition-all duration-200 ${isChildItemActive
-                                        ? "text-teal-600 dark:text-teal-400 bg-teal-50 font-semibold"
-                                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                                    className={`flex items-center gap-3 px-4 py-1.5 rounded-lg text-[12.5px] transition-all duration-200 ${isChildActive
+                                        ? "text-white dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30"
+                                        : "text-white dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
                                         }`}>
                                     <child.icon size={16} className="shrink-0" />
                                     <span className="truncate">{child.name}</span>
@@ -145,20 +127,19 @@ export const Sidebar = ({ isCollapsed: initialCollapsed = false }: SidebarProps)
     const [isCollapsed, setIsCollapsed] = useState(initialCollapsed);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const pathname = usePathname();
-
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed);
     };
 
     // Sidebar content that will be used in both desktop and mobile
     const SidebarContent = ({ isMobile = false }) => (
-        <div className="h-full flex flex-col bg-white border-r border-slate-200 dark:border-slate-800">
+        <div className="h-full flex flex-col bg-white dark:bg-slate-900">
             {/* Header with smooth transitions */}
             <div className={`
                 relative flex items-center gap-3 p-3 border-b border-slate-200 dark:border-slate-800
                 ${isMobile ? 'justify-between' : (isCollapsed ? 'justify-center' : 'justify-between')}
             `}>
-                {/* Logo and Title */}
+                {/* Logo and Title - with smooth hide/show */}
                 <motion.div
                     className="flex items-center gap-3 overflow-hidden"
                     animate={{
@@ -186,7 +167,7 @@ export const Sidebar = ({ isCollapsed: initialCollapsed = false }: SidebarProps)
                 {!isMobile && (
                     <motion.button
                         onClick={toggleCollapse}
-                        className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors duration-200 shrink-0"
+                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors duration-200 shrink-0"
                         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                         whileTap={{ scale: 0.95 }}>
                         <motion.div
@@ -201,8 +182,7 @@ export const Sidebar = ({ isCollapsed: initialCollapsed = false }: SidebarProps)
                 {isMobile && (
                     <button
                         onClick={() => setIsMobileOpen(false)}
-                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"
-                    >
+                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
                         <MenuIcon size={24} />
                     </button>
                 )}
@@ -245,11 +225,11 @@ export const Sidebar = ({ isCollapsed: initialCollapsed = false }: SidebarProps)
 
     return (
         <>
-            {/* Desktop Sidebar */}
+            {/* Desktop Sidebar - with smooth width transition */}
             <motion.aside
-                className="hidden lg:block h-screen sticky top-0 bg-white border-r border-slate-200 dark:border-slate-800 shadow-lg z-30"
+                className="hidden lg:block h-screen sticky top-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-lg z-30"
                 animate={{
-                    width: isCollapsed ? 80 : 240,
+                    width: isCollapsed ? 80 : 240, // w-20 = 80px, w-64 = 256px
                 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 style={{ overflow: 'hidden' }}>
@@ -279,11 +259,9 @@ export const Sidebar = ({ isCollapsed: initialCollapsed = false }: SidebarProps)
             </AnimatePresence>
 
             {/* Mobile Toggle Button */}
-            {/* Note: 'left-168' is not standard Tailwind, changed to 'left-4' for safety. Adjust as needed */}
             <button
                 onClick={() => setIsMobileOpen(true)}
-                className="fixed top-4 left-4 z-30 lg:hidden p-3 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-teal-600 transition-all duration-200 hover:scale-105 active:scale-95 bg-white dark:bg-slate-800 rounded-md shadow-md"
-            >
+                className="fixed top-2.5 left-168 z-30 lg:hidden p-3 dark:border-slate-800 text-white hover:text-slate-900 transition-all duration-200 hover:scale-105 active:scale-95" >
                 <MenuIcon size={20} />
             </button>
         </>
