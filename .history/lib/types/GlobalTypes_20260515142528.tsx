@@ -71,10 +71,3 @@ export interface RowActionProps {
   rowId: string;
   deleteAction: (id: string) => void;
 }
-
-export interface Banner {
-  id: number;
-  title: string;
-  imageUrl: string;
-  status: 'active' | 'inactive';
-}

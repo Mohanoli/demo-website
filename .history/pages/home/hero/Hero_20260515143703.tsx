@@ -17,7 +17,7 @@ import { HeroImage } from "@/lib/types/GlobalTypes";
 const Carousel = () => {
     const [banners, setBanners] = useState<HeroImage[]>([]);
     const [loading, setLoading] = useState(true);
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.sanakisan.magnus.com.np";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https//:api.sanakisan.magnus.com.np";
 
     useEffect(() => {
         const fetchBanners = async () => {
