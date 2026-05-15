@@ -4,20 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { X, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import axiosInstance from "@/lib/config/AxiosConfig";
 import { toast } from "sonner";
+import { BannerFormModalProps } from "@/lib/types/GlobalTypes";
 
-interface Banner {
-    id: number;
-    title: string;
-    imageUrl: string;
-    status: 'active' | 'inactive';
-}
-
-interface BannerFormModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onSuccess: () => void;
-    banner?: Banner;
-}
 
 export const BannerFormModal = ({ isOpen, onClose, onSuccess, banner }: BannerFormModalProps) => {
     const [title, setTitle] = useState("");

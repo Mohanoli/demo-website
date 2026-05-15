@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, Plus, CheckCircle2, XCircle, } from "lucide-react";
+import { Search, Plus, CheckCircle2, XCircle } from "lucide-react";
 import axiosInstance from "@/lib/config/AxiosConfig";
 import { toast } from "sonner";
 import { BannerFormModal } from "./BannerFormModal";
@@ -32,11 +32,8 @@ export const BannerTable = () => {
         fetchBanners();
     }, []);
 
-    // Updated to accept string ID from RowAction and removed manual confirm dialog
-    // RowAction handles the SweetAlert confirmation
     const handleDelete = async (id: string) => {
         try {
-            // Convert string ID to number for API if necessary
             const numericId = Number(id);
             await axiosInstance.delete(`/banners/${numericId}`);
             toast.success("Banner deleted successfully");
@@ -137,10 +134,8 @@ export const BannerTable = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        {/* Implementation of RowAction Component */}
                                         <div className="flex justify-end">
                                             <RowAction
-                                                // We pass the function as a prop to open the modal
                                                 onEdit={() => handleEdit(banner)}
                                                 rowId={String(banner.id)}
                                                 deleteAction={handleDelete}

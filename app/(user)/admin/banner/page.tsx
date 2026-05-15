@@ -1,6 +1,6 @@
 "use client";
 
-import { BannerTable } from "@/pages/cms/banner/BannerTable";
+import { BannerTable } from "@/components/cms/banner/BannerTable";
 import { Image as ImageIcon } from "lucide-react";
 
 export default function BannersPage() {
