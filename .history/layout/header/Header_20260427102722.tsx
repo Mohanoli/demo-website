@@ -29,17 +29,8 @@ export const Header = () => {
     const [currentNepaliDate, setCurrentNepaliDate] = useState('');
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [dynamicMenuItems, setDynamicMenuItems] = useState<MenuItem[]>([]);
-    const [companyInfo, setCompanyInfo] = useState<any>(null);
 
     const navMenuRef = useRef<HTMLElement>(null);
-
-    const getLogoUrl = (url: string | undefined | null) => {
-        if (!url) return "/logo.png";
-        if (url.startsWith('/uploads')) {
-            return `${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.sanakisan.magnus.com.np'}${url}`;
-        }
-        return url;
-    };
 
     // Fetch Menus
     useEffect(() => {
@@ -61,18 +52,7 @@ export const Header = () => {
                 console.error("Failed to load header menus:", error);
             }
         };
-        const fetchCompanyInfo = async () => {
-            try {
-                const response: any = await axiosInstance.get('/company-info');
-                if (response?.success) {
-                    setCompanyInfo(response.result);
-                }
-            } catch (error) {
-                console.error("Failed to load company info:", error);
-            }
-        };
         fetchMenus();
-        fetchCompanyInfo();
     }, []);
 
     // Dark Mode Logic
@@ -86,11 +66,7 @@ export const Header = () => {
         const newMode = !isDarkMode;
         setIsDarkMode(newMode);
         localStorage.setItem('darkMode', String(newMode));
-        if (newMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        document.documentElement.classList.toggle('dark');
     };
 
     // Nepali Date
@@ -124,33 +100,32 @@ export const Header = () => {
     return (
         <>
             {/* 1. TOP NAV */}
-            <div className="bg-[#0a8338] dark:bg-[#1a1a2e] text-white dark:text-gray-100 py-1 px-5 md:px-17 relative z-50">
+            <div className="bg-[#0a8338] text-white py-1 px-5 md:px-17 relative z-50">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
 
                     {/* Left: Logo + Text */}
                     <Link href="/" className="flex items-center gap-4">
                         <div className="relative w-14 h-14 transition-transform">
-                            <Image src={getLogoUrl(companyInfo?.logoUrl)} alt="Logo" fill className="object-contain" />
+                            <Image src="/logo.png"
+                             alt="Logo"
+                            sizes="53px"
+                            fill className="object-contain" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold leading-none">{companyInfo?.name || "SFACL"}</h1>
-                            <p className="text-xs mt-1">{companyInfo?.address || "Shantinagar, 07 Khareni Dang"}</p>
+                            <h1 className="text-xl font-bold leading-none">SFACL DHANAURI</h1>
+                            <p className="text-xs mt-1">Shantinagar, 07 Khareni Dang</p>
                         </div>
                     </Link>
 
                     {/* Right: Contact + Socials + Dark Mode */}
                     <div className="flex items-center gap-4 md:gap-6">
-                        <a href={`tel:${companyInfo?.phone || "+9779818145290"}`} className="flex items-center gap-2 text-sm hover:text-yellow-400 transition-colors">
-                            <FaPhoneAlt size={14} /> <span className="hidden sm:inline">{companyInfo?.phone || "+977 9818145290"}</span>
+                        <a href="tel:+9779818145290" className="flex items-center gap-2 text-sm hover:text-yellow-400 transition-colors">
+                            <FaPhoneAlt size={14} /> <span className="hidden sm:inline">+977 9818145290</span>
                         </a>
 
                         {/* Social Icons */}
                         <div className="flex gap-3 sm:gap-4 text-base sm:text-lg">
-                            {companyInfo?.facebook && <a href={companyInfo.facebook} target="_blank" rel="noreferrer"><FaFacebook className="hover:text-yellow-400 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-110" /></a>}
-                            {companyInfo?.twitter && <a href={companyInfo.twitter} target="_blank" rel="noreferrer"><FaTwitter className="hover:text-yellow-400 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-110" /></a>}
-                            {companyInfo?.linkedin && <a href={companyInfo.linkedin} target="_blank" rel="noreferrer"><FaLinkedin className="hover:text-yellow-400 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-110" /></a>}
-                            {companyInfo?.youtube && <a href={companyInfo.youtube} target="_blank" rel="noreferrer"><FaYoutube className="hover:text-yellow-400 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-110" /></a>}
-                            {(!companyInfo?.facebook && !companyInfo?.twitter && !companyInfo?.linkedin && !companyInfo?.youtube) && [FaFacebook, FaTwitter, FaLinkedin, FaYoutube].map((Icon, index) => (
+                            {[FaFacebook, FaTwitter, FaLinkedin, FaYoutube].map((Icon, index) => (
                                 <Icon
                                     key={index}
                                     className="hover:text-yellow-400 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-110" />
@@ -161,7 +136,7 @@ export const Header = () => {
                         <button
                             type="button"
                             onClick={toggleDarkMode}
-                            className="p-2 bg-black/20 dark:bg-white/20 rounded-full hover:bg-black/40 dark:hover:bg-white/40 transition-colors text-xl"
+                            className="p-2 bg-black/20 rounded-full hover:bg-black/40 transition-colors text-xl"
                         >
                             {isDarkMode ? <FaSun /> : <FaMoon />}
                         </button>
@@ -178,8 +153,8 @@ export const Header = () => {
                     opacity: { duration: 0.4 }
                 } : { duration: 0 }}
                 className={`w-full z-50 will-change-transform ${isFixed
-                    ? 'fixed top-0 left-0 right-0 bg-[#0b6b30]/95 dark:bg-[#1f2937]'
-                    : 'relative bg-[#0b6b30] dark:bg-[#1f2937]'}`}>
+                        ? 'fixed top-0 left-0 right-0 bg-[#0b6b30]/95 backdrop-blur-md shadow-lg'
+                        : 'relative bg-[#0b6b30]'}`}>
 
                 <div className={`max-w-6xl mx-auto px-4 md:px-8 flex justify-between items-center ${isFixed ? 'h-15' : 'h-12'}`}>
 
@@ -187,7 +162,7 @@ export const Header = () => {
 
                         <Link href="/" className={`flex items-center gap-3 transition-all duration-800 ${isFixed ? 'opacity-100 translate-x-0' : 'opacity-0 translate-y-0 pointer-events-none w-0'}`}>
                             <div className="relative w-13 h-13">
-                                <Image src={getLogoUrl(companyInfo?.logoUrl)} alt="Logo" fill className="object-contain" />
+                                <Image src="/logo.png" alt="Logo" sizes="52px" fill className="object-contain" />
                             </div>
                         </Link>
 
@@ -272,7 +247,7 @@ export const Header = () => {
                             initial="closed"
                             animate="open"
                             exit="closed"
-                            className="fixed top-0 left-0 w-[80%] max-w-300px h-full bg-[#088738] dark:bg-[#1f2937] z-1001 shadow-2xl xl:hidden flex flex-col"
+                            className="fixed top-0 left-0 w-[80%] max-w-300px h-full bg-[#088738] dark:bg-zinc-950 z-1001 shadow-2xl xl:hidden flex flex-col"
                         >
                             {/* Header */}
                             <div className="p-2 border-b border-white/10 flex justify-between items-center">
@@ -281,7 +256,7 @@ export const Header = () => {
                                 <div className="flex items-center gap-4">
                                     <div className="relative w-10 h-10">
                                         <Image
-                                            src={getLogoUrl(companyInfo?.logoUrl)}
+                                            src="/logo.png"
                                             alt="Logo"
                                             fill
                                             className="object-contain"
@@ -349,11 +324,7 @@ export const Header = () => {
                             {/* Footer (NOW FIXED) */}
                             <div className="">
                                 <div className="flex gap-4 justify-center mb-4">
-                                    {companyInfo?.facebook && <a href={companyInfo.facebook} target="_blank" rel="noreferrer"><FaFacebook className="text-white/80 hover:text-yellow-400 cursor-pointer transition-colors text-xl" /></a>}
-                                    {companyInfo?.twitter && <a href={companyInfo.twitter} target="_blank" rel="noreferrer"><FaTwitter className="text-white/80 hover:text-yellow-400 cursor-pointer transition-colors text-xl" /></a>}
-                                    {companyInfo?.linkedin && <a href={companyInfo.linkedin} target="_blank" rel="noreferrer"><FaLinkedin className="text-white/80 hover:text-yellow-400 cursor-pointer transition-colors text-xl" /></a>}
-                                    {companyInfo?.youtube && <a href={companyInfo.youtube} target="_blank" rel="noreferrer"><FaYoutube className="text-white/80 hover:text-yellow-400 cursor-pointer transition-colors text-xl" /></a>}
-                                    {(!companyInfo?.facebook && !companyInfo?.twitter && !companyInfo?.linkedin && !companyInfo?.youtube) && [FaFacebook, FaTwitter, FaLinkedin, FaYoutube].map(
+                                    {[FaFacebook, FaTwitter, FaLinkedin, FaYoutube].map(
                                         (Icon, index) => (
                                             <Icon
                                                 key={index}
@@ -362,7 +333,7 @@ export const Header = () => {
                                     )}
                                 </div>
                                 <p className="text-white/60 text-xs text-center">
-                                    © 2024 {companyInfo?.name || "SFACL Dhanauri"}. All rights reserved.
+                                    © 2024 SFACL Dhanauri. All rights reserved.
                                 </p>
                             </div>
                         </motion.div>

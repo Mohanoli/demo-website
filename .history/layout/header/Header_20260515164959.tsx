@@ -133,7 +133,7 @@ export const Header = () => {
                             <Image src={getLogoUrl(companyInfo?.logoUrl)} alt="Logo" fill className="object-contain" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold leading-none">{companyInfo?.name || "SFACL"}</h1>
+                            <h1 className="text-xl font-bold leading-none">{companyInfo?.name || ""}</h1>
                             <p className="text-xs mt-1">{companyInfo?.address || "Shantinagar, 07 Khareni Dang"}</p>
                         </div>
                     </Link>
