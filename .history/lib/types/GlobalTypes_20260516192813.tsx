@@ -266,15 +266,3 @@ export interface DonutChartProps {
 export interface UserEditProps {
   userId: string;
 }
-
-export interface IUser {
-    createdAt: string;
-    email: string;
-    gender: string;
-    image: string;
-    username: string;
-    role: string;
-    status: string;
-    updatedAt: string;
-    id: string | number;
-}
