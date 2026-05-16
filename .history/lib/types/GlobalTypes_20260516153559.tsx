@@ -181,22 +181,3 @@ export interface HighlightCarouselProps {
     cardClass?: string;
     imageHeight?: string;
 }
-
-
-export type ProductType = "saving" | "loan";
-
-export type Product = {
-  title: string;
-  url: string;
-  image: string | StaticImageData; // allow imported images
-  type: string;
-};
-
-export type ServiceType = "saving" | "loan" | "share" | "insurance";
-
-export interface Service {
-  title: string;
-  url: string;
-  image: string | StaticImageData;
-  type: string;
-};
