@@ -40,7 +40,7 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                                             className={`relative w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3
                                                 ${isActive
                                                     ? "text-black bg-gray-50"
-                                                    : "text-blue-900 hover:text-green-700 hover:bg-gray-200"
+                                                    : "text-blue-900 hover:text-green-700 hover:bg-gray-50"
                                                 }`}
                                         >
                                             {isActive && (
@@ -87,7 +87,7 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                                 className="scroll-mt-28"
                             >
                                 <div
-                                    className="bg-gray-100 rounded-xl"
+                                    className="bg-white rounded-xl"
                                     style={{ borderLeft: `8px solid ${product.accentColor}` }}
                                 >
                                     {/* Header */}

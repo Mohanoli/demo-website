@@ -87,7 +87,7 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                                 className="scroll-mt-28"
                             >
                                 <div
-                                    className="bg-gray-100 rounded-xl"
+                                    className="bg-white rounded-xl"
                                     style={{ borderLeft: `8px solid ${product.accentColor}` }}
                                 >
                                     {/* Header */}

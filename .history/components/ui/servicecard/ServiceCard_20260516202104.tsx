@@ -25,7 +25,7 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                     {/* Sidebar */}
                     <aside className="hidden lg:block lg:col-span-3">
                         <div className="sticky top-24 overflow-y-auto max-h-[calc(100vh-8rem)] pr-2">
-                            <p className="text-[15px] font-bold text-green-900 uppercase tracking-[0.11em] px-2 mb-3">
+                            <p className="text-[15px] font-bold text-black uppercase tracking-[0.18em] px-3 mb-3">
                                 {title}
                             </p>
 
@@ -39,8 +39,8 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                                             onClick={() => scrollToSection(product.id)}
                                             className={`relative w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3
                                                 ${isActive
-                                                    ? "text-black bg-gray-50"
-                                                    : "text-blue-900 hover:text-green-700 hover:bg-gray-200"
+                                                    ? "text-gray-900 bg-gray-50"
+                                                    : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"
                                                 }`}
                                         >
                                             {isActive && (
@@ -87,7 +87,7 @@ export default function ProductPage({ products, title }: ProductPageProps) {
                                 className="scroll-mt-28"
                             >
                                 <div
-                                    className="bg-gray-100 rounded-xl"
+                                    className="bg-white rounded-xl"
                                     style={{ borderLeft: `8px solid ${product.accentColor}` }}
                                 >
                                     {/* Header */}
