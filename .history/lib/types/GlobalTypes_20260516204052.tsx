@@ -316,7 +316,7 @@ export interface SavingProduct {
 
 
 
-export interface FeatureItemsectionProps {
+export interface FeatureItem {
     title: string;
     subtitle: string;
     bullets: string[];
