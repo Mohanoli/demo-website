@@ -285,25 +285,7 @@ export interface ProductPageProps {
   title: string;
 }
 
-export interface FeatureItem {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-}
-
 export interface LoanProduct {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  icon: React.ElementType;
-  accentColor: string; // raw CSS hex/color for the left border accent only
-  features: FeatureItem[];
-  facilities: string[];
-}
-
-
-export interface SavingProduct {
   id: string;
   title: string;
   subtitle: string;
