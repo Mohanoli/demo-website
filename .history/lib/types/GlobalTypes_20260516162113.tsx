@@ -227,37 +227,3 @@ export interface EMIResult {
   totalInterest: number;
   schedule: Schedule[];
 }
-
-export interface SummaryTileProps {
-  Icon: React.ElementType;
-  label: string;
-  value: string;
-  color: string;
-}
-
-
-
-
-export interface RepaymentScheduleProps {
-  result: EMIResult;
-  /** Raw principal amount in NPR — shown in the summary bar */
-  loanAmount: number;
-  onPrint: () => void;
-  onDownload: () => void;
-}
-
-export interface Segment {
-  value: number;
-  color: string;
-  label: string;
-}
-
-
-export interface DonutChartProps {
-  primary: Segment;
-  secondary: Segment;
-  gap?: number;
-  outerRadius?: number;
-  innerRadius?: number;
-  size?: number;
-}

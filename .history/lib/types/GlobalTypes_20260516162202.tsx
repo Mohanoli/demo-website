@@ -245,19 +245,3 @@ export interface RepaymentScheduleProps {
   onPrint: () => void;
   onDownload: () => void;
 }
-
-export interface Segment {
-  value: number;
-  color: string;
-  label: string;
-}
-
-
-export interface DonutChartProps {
-  primary: Segment;
-  secondary: Segment;
-  gap?: number;
-  outerRadius?: number;
-  innerRadius?: number;
-  size?: number;
-}

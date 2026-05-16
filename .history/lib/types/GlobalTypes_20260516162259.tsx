@@ -246,12 +246,6 @@ export interface RepaymentScheduleProps {
   onDownload: () => void;
 }
 
-export interface Segment {
-  value: number;
-  color: string;
-  label: string;
-}
-
 
 export interface DonutChartProps {
   primary: Segment;
